@@ -29,7 +29,7 @@ Tag Properties:
     - If bit ‘0’ of ‘flags’ (also known as ‘optional’) is set, the bootloader may ignore this tag if it lacks relevant support.
 */
 
-.set HEADER_ALIGN,             8                                    # Bytes header alignment
+.set ALIGN,             8                                    # Bytes header alignment
 
 # Magic Field
 .set HEADER_MAGIC,             0xE85250D6                           # Magic Number
@@ -37,8 +37,11 @@ Tag Properties:
 .set HEADER_LENGTH,            (header_end - header_start)          # Header Length
 .set CHECKSUM,                 -(HEADER_MAGIC + MULTIBOOT_ARCHITECTURE + HEADER_LENGTH)    # Checksum
 
+# Optional
+.set TAG_FLAG_ZERO, 0
+.set TAG_FLAG_ONE, 1
+
 # Framebuffer
-.set FB_FLAGS,                 0x0
 .set FB_WIDTH,                 640
 .set FB_HEIGHT,                480
 .set FB_DEPTH,                 32
