@@ -1,3 +1,5 @@
+builds/.
+
 # Prerequisites
 *.d
 
@@ -30,5 +32,8 @@
 *.exe
 *.out
 *.app
+*.bin
+*.iso
 
-./builds/
+.vscode
+builds
