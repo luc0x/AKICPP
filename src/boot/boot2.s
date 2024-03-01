@@ -5,14 +5,14 @@
 .section .multiboot
 
 header_start:
-.align ALIGN
+.align  ALIGN
 .long   HEADER_MAGIC
 .long   MULTIBOOT_ARCHITECTURE
 .long   HEADER_LENGTH
 .long   CHECKSUM
 
 FB_start:
-.align ALIGN
+.align  ALIGN
 .short  5
 .short  TAG_FLAG_ONE
 .long   (FB_end - FB_start)
@@ -21,7 +21,15 @@ FB_start:
 .long   FB_DEPTH
 FB_end:
 
-.align ALIGN
+EFI_I386_start:
+.align  ALIGN
+.short  8
+.short  TAG_FLAG_ONE
+.long   (EFI_I386_end - EFI_I386_start)
+.long   _start
+EFI_I386_end:
+
+.align  ALIGN
 .short  0
 .short  0
 .long   8
@@ -45,7 +53,7 @@ _start:
 
     pushl $0
     popf
-
+ 
     pushl %ebx # Bootloader INFO 
     pushl %eax # Bootloader MAGIC
 

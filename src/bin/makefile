@@ -8,5 +8,7 @@ CRTBEGIN_OBJ := $(shell $(CXX) $(LD_FLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CXX) $(LD_FLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = $(OUT)crtn.o
 
-kernel.bin : linker.ld ./out/boot.o ./out/kernel.o
-	$(CXX) -T linker.ld -o kernel.bin $(LD_FLAGS) $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OUT)boot.o $(OUT)kernel.o $(CRTEND_OBJ) $(CRTN_OBJ)  
+OBJS = $(OUT)boot.o $(OUT)kernel.o $(OUT)multiboot.o
+
+kernel.bin : linker.ld ./out/boot.o ./out/kernel.o ./out/multiboot.o
+	$(CXX) -T linker.ld -o kernel.bin $(LD_FLAGS) $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJS) $(CRTEND_OBJ) $(CRTN_OBJ)  
