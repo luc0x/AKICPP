@@ -6,36 +6,33 @@
 
 namespace Multiboot
 {
-    int load_boot_information(unsigned long* address);
-
-    enum class TagsType;
-
-    struct Tag;
-
+    typedef unsigned long* u32_ptr;
     typedef unsigned long u32;
     typedef unsigned short u16;
     typedef unsigned char u8;
 
+    enum class TagsType;
+
+    class BootInfo
+    {
+        public:
+            BootInfo();
+            BootInfo(u32_ptr address);
+            ~BootInfo();
+
+            bool load_at(u32_ptr address);
+            bool is_tag(u32 tag);
+            
+        private: 
+            u32 total_size;
+            u32 reserved; 
+            u32_ptr buffer;
+            u32_ptr tags[21];
+            bool asigned = false;
+    };
+};
 
 #ifdef MULTIBOOT2
-    struct BasicMemInfo : Tag 
-    {
-        u32 mem_lower;
-        u32 mem_upper;
-    } mem_basic;
-
-    struct BiosDevice : Tag
-    {
-        u32 biosdev;
-        u32 partition;
-        u32 sub_partition;
-    } boot_dev;
-
-    struct CmdLine : Tag
-    {
-        u8 string;
-    } cmd_line;
-};
 
 #define ALIGN 8
 #define MAGIC 0x36d76289
@@ -67,10 +64,5 @@ enum class Multiboot::TagsType
     LOAD_BASE_ADDR = 21,
 }; 
 
-struct Multiboot::Tag 
-{
-    TagsType type;
-    u32 size;
-};
 
 #endif 
