@@ -35,7 +35,7 @@ bool Multiboot::BootInfo::load_at(u32_ptr address)
 
 bool Multiboot::BootInfo::is_tag(u32 tag)
 {
-    return (0 <= tag && tag < 22);
+    return (tag < 22);
 }
 
 Multiboot::BootInfo::~BootInfo()
