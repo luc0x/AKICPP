@@ -1,22 +1,34 @@
 #include <multiboot/multiboot.hpp>
 
-Multiboot::BootInfo::BootInfo() 
+bool Multiboot::BootInfo::load(ADDRESS address)
 {
-    
-}
+    tota_size = address[0];
+    reserved  = address[1];
+    address  += 2;
 
-Multiboot::BootInfo::BootInfo(u32_ptr address)
-{
-    if(load_at(address) != true)
+    _basictag* tag = (_basictag*)address;
+    while (is_tag(tag->type))
     {
-        // Kernel Panic!!!
-        BREAK("KernelPanic")
+        if (TagsType(tag->type) == TagsType::END)
+            return 0;
+        
+        tags_start[tag->type] = address;
+
+        tag = (_basictag*) ((u8*) tag + padding(tag->size));
     }
+
+    return 1; 
 }
 
-bool Multiboot::BootInfo::load_at(u32_ptr address)
-{   
-    total_size = address[0];
+template<typename Tag>
+Tag Multiboot::BootInfo::get()
+{
+    Tag tag;
+    *tag = tags_start[Tag::type];
+    return tag;
+}
+/*
+total_size = address[0];
     reserved = address[1];
     buffer = &(address[2]);
     address += 2;
@@ -31,17 +43,8 @@ bool Multiboot::BootInfo::load_at(u32_ptr address)
         BREAK("Tags_end")
     }
     return false;
-}
+*/
 
-bool Multiboot::BootInfo::is_tag(u32 tag)
-{
-    return (tag < 22);
-}
-
-Multiboot::BootInfo::~BootInfo()
-{
-
-}
 
 /*
 int Multiboot::load_boot_information(u32* address)

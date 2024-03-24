@@ -14,7 +14,7 @@ debug: $(LINKER)
 	$(info Building debug $(ARCH) version)
 
 	make -C $(ARCH_BUILD) INFO_FLAG="$(DEBUG_FLAGS)"
-	make -C kernel CXX=$(CXX) INFO_FLAG="$(DEBUG_FLAGS)"
+	make -C kernel CXX=$(CXX) INFO_FLAG="$(DEBUG_FLAGS) -D$(ARCH)"
 	
 	$(CXX) -T $(LINKER) -o $(DIR_BUILDS)/debug/kernel_$(ARCH).bin $(LK_FLAGS) $(ARCH_OBJS)
 	@echo -e "Build complete OUT ->$(GREEN) $(DIR_BUILDS)/debug $(END)"
@@ -24,7 +24,7 @@ release: $(LINKER)
 	$(info Building realse $(ARCH) version)
 
 	make -C $(ARCH_BUILD) INFO_FLAG="$(RELEASE_FLAGS)"
-	make -C kernel CXX=$(CXX) INFO_FLAG="$(RELEASE_FLAGS)"
+	make -C kernel CXX=$(CXX) INFO_FLAG="$(RELEASE_FLAGS) -D$(ARCH)"
 
 	$(CXX) -T $(LINKER) -o $(DIR_BUILDS)/release/kernel_$(ARCH).bin $(LK_FLAGS) $(ARCH_OBJS)
 	@echo -e "Build complete OUT ->$(GREEN) $(DIR_BUILDS)/realse $(END)"

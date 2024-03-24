@@ -1,8 +1,11 @@
 #pragma once
 
+#include <utils.hpp>
 #include <multiboot/multiboot.hpp>
+
+using Multiboot::BootInfo;
 
 extern "C" void kernel_main(
     unsigned long magic /* The magic 0x2BADB002*/,
-    unsigned long* multiboot_addr /*Multiboot information structure*/
+    ADDRESS multiboot_addr /*Multiboot information structure*/
     );

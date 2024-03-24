@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef DEBUG
-#define BREAK(label) asm volatile (label":");
+#define BREAK(label) asm volatile (label":"); 
 #else
 #define BREAK(label)
 
