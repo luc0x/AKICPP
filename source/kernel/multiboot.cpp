@@ -6,7 +6,7 @@ bool Multiboot::BootInfo::load(ADDRESS address)
 
     reserved  = address[1];
     address  += 2;
-    
+
     _basictag* tag = (_basictag*)address;
     
     while (is_tag(tag->type))
@@ -20,10 +20,4 @@ bool Multiboot::BootInfo::load(ADDRESS address)
     }
 
     return 1; 
-}
-
-template<typename Tag>
-Tag* Multiboot::BootInfo::get()
-{
-    return (Tag*)tags_start[Tag::type];
 }

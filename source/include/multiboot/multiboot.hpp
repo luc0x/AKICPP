@@ -205,8 +205,8 @@ namespace Multiboot
         public:
             static bool load(ADDRESS address);
 
-            template <typename Tag>
-            static Tag* get();
+            template <class Tag>
+            static inline Tag* get() { return (Tag*)(++tags_start[Tag::type]); }
 
             
             static inline bool is_tag(u32 tag) { return tag <= 21; }
