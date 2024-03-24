@@ -8,10 +8,10 @@ extern "C" void kernel_main(
         return;
     
     
-    if(BootInfo::load(multiboot_addr) == 1)
+    if (BootInfo::load(multiboot_addr))
     {
-        // KERNEL PANIC
+        // Kernel Main
     }
-
+    
     return;
 }   

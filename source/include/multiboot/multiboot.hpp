@@ -206,14 +206,14 @@ namespace Multiboot
             static bool load(ADDRESS address);
 
             template <typename Tag>
-            static Tag  get();        
+            static Tag* get();
 
-
+            
             static inline bool is_tag(u32 tag) { return tag <= 21; }
             
         private:
             static inline u32 padding(u32 size) { return (size + 7) & ~7; }
-            static inline ADDRESS tags_start[21] = {};
+            static inline ADDRESS tags_start[21] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             static inline u32 tota_size = 0;
             static inline u32 reserved = 0;
 
