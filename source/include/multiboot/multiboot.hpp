@@ -263,6 +263,8 @@ namespace Multiboot
             
             static inline bool is_tag(u32 tag) { return tag <= 21; }
             
+            static inline u32 get_size() { return tota_size; }
+            static inline u32 get_reserved() { return reserved; }
         private:
             static inline u32 padding(u32 size) { return (size + 7) & ~7; }
             static inline ADDRESS tags_start[21] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
