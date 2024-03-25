@@ -11,6 +11,7 @@ header_start:
 .long   HEADER_LENGTH
 .long   CHECKSUM
 
+// Frame Buffer
 FB_start:
 .align  ALIGN
 .short  5
@@ -20,6 +21,14 @@ FB_start:
 .long   FB_HEIGHT
 .long   FB_DEPTH
 FB_end:
+
+// EFI Service
+EFI_Boot_Service_start:
+.align  ALIGN
+.short  7
+.short  TAG_FLAG_ONE
+.long   8
+EFI_Boot_Service_end:
 
 EFI_I386_start:
 .align  ALIGN

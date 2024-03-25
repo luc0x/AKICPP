@@ -7,18 +7,16 @@ extern "C" void kernel_main(
     if(magic != MAGIC)
         return;
     
-    
     if (BootInfo::load(multiboot_addr))
     {
-        // Kernel Panic
+        // An Error Happened -> Kernel Panic
     }
-    
-    if (BootInfo::exist<Multiboot::EFI32Table>())
+    if (BootInfo::exist<Multiboot::FrameBufferInfo>())
     {
-        auto fb = BootInfo::get<Multiboot::EFI32Table>();
+        auto fb = BootInfo::get<Multiboot::FrameBufferInfo>();
+        
+        auto a  = fb->size;
     }
-    
-
     return;
 }   
 

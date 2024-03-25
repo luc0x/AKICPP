@@ -45,7 +45,7 @@ namespace Multiboot
 
     struct BasicMemoryInfo
     {   
-        static inline u32 type = 4;
+        const static inline u32 type = 4;
         u32 size;
         u32 mem_lower;
         u32 mem_upper;
@@ -53,7 +53,7 @@ namespace Multiboot
 
     struct BootDevice 
     {
-        static inline u32 type = 5;
+        const static inline u32 type = 5;
         u32 size;
         u32 biosdev;
         u32 partition;
@@ -62,14 +62,14 @@ namespace Multiboot
 
     struct CommandLine 
     {
-        static inline u32 type = 1;
+        const static inline u32 type = 1;
         u32 size;
         u8* string;
     };
 
     struct Modules
     {
-        static inline u32 type = 3;
+        const static inline u32 type = 3;
         u32 size;
         u32 mod_start;
         u32 mod_end;
@@ -78,7 +78,7 @@ namespace Multiboot
 
     struct ELFSymbol
     {
-        static inline u32 type = 9;
+        const static inline u32 type = 9;
         u32 size;
         u16 num;
         u16 entsize;
@@ -97,7 +97,7 @@ namespace Multiboot
 
     struct MemoryMap
     {
-        static inline u32 type = 6;
+        const static inline u32 type = 6;
         u32          size;
         u32          entry_size;
         u32          entry_version;
@@ -106,14 +106,14 @@ namespace Multiboot
 
     struct BootLoaderName 
     {
-        static inline u32 type = 2;
+        const static inline u32 type = 2;
         u32 size;
         u8* string;
     };
 
     struct AMPTable 
     {
-        static inline u32 type = 10;
+        const static inline u32 type = 10;
         u32 size;
         u16 version;
         u16 cseg;
@@ -127,7 +127,7 @@ namespace Multiboot
 
     struct VBEInfo
     {
-        static inline u32 type = 7;
+        const static inline u32 type = 7;
         u32 size;
         u16 vbe_mode;
         u16 vbe_interface_seg;
@@ -140,7 +140,7 @@ namespace Multiboot
     // FB INFO TAG
     struct FrameBufferInfo
     {
-        static inline u32 type = 8;
+        const static inline u32 type = 8;
         u32     size;
         u64     framebuffer_addr;
         u32     framebuffer_pitch;
@@ -149,7 +149,7 @@ namespace Multiboot
         u8      framebuffer_bpp;
         u8      framebuffer_type;
         u8      reserved;  
-        ADDRESS varies;   
+        u32     varies;   
     };
 
     struct IndexedColor
@@ -171,81 +171,81 @@ namespace Multiboot
 
     struct EFI32Table
     {
-        static inline u32 type = 11;
+        const static inline u32 type = 11;
         u32     size;
         ADDRESS pointer;
     };
 
     struct EFI64Table
     {
-        static inline u32 type = 12;
+        const static inline u32 type = 12;
         u32 size;
         u64 pointer;
     };
 
     struct SMBIOSTable
     {
-        static inline u32 type = 13;
+        const static inline u32 type = 13;
         u32     size;
         u8      major;
         u8      minor;
         u8      reserved[8];
-        ADDRESS smbios_table;
+        u32     smbios_table;
     };
 
     struct ACPIOldRSDP
     {
-        static inline u32 type = 14;
+        const static inline u32 type = 14;
         u32     size;
-        ADDRESS rsdpv1;
+        u32     rsdpv1;
     };
 
     struct ACPINewRSDP
     {
-        static inline u32 type = 15;
+        const static inline u32 type = 15;
         u32     size;
-        ADDRESS rsdpv2;
+        u32     rsdpv2;
     };
 
     struct NetworkInfo
     {
-        static inline u32 type = 16;
+        const static inline u32 type = 16;
         u32     size;
-        ADDRESS DHCP;
+        u32     DHCP;
     };
 
     struct EFIMemoryMap
     {
-        static inline u32 type = 17;
+        const static inline u32 type = 17;
         u32     size;
         u32     descriptor_size;
         u32     descriptor_version;
-        ADDRESS efi_memory_map;
+        u32     efi_memory_map;
     };
 
     struct EFIServicesTerminated
     {
-        static inline u32 type = 18;
+        const static inline u32 type = 18;
         u32 size;
     };
 
     struct EFI32ImageHandler
     {
-        static inline u32 type = 19;
+        const static inline u32 type = 19;
         u32     size;
         ADDRESS pointer;
     };
 
     struct EFI64ImageHandler
     {
-        static inline u32 type = 20;
+        const static inline u32 type = 20;
         u32 size;
         u64 pointer;
     };
 
     struct ImageLoadBase
     {
-        static inline u32 type = 21;
+        const static inline u32 type = 21;
         u32 size;
         u32 load_base_address;
     };
@@ -256,7 +256,7 @@ namespace Multiboot
             static bool load(ADDRESS address);
 
             template <class Tag>
-            static inline Tag* get() { return (Tag*)(++tags_start[Tag::type]); }
+            static inline const Tag* get() { return (const Tag*)(++tags_start[Tag::type]); }
         
             template <class Tag>
             static inline bool exist() { return (tags_start[Tag::type] != 0); }
