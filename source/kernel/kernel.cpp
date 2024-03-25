@@ -14,7 +14,7 @@ extern "C" void kernel_main(
     if (BootInfo::exist<Multiboot::FrameBufferInfo>())
     {
         auto fb = BootInfo::get<Multiboot::FrameBufferInfo>();
-        
+        auto fb_two = BootInfo::get<Multiboot::FrameBufferInfo>();
         auto a  = fb->size;
     }
     return;

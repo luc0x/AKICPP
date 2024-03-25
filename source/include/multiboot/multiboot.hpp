@@ -256,7 +256,7 @@ namespace Multiboot
             static bool load(ADDRESS address);
 
             template <class Tag>
-            static inline const Tag* get() { return (const Tag*)(++tags_start[Tag::type]); }
+            static inline const Tag* get() { return (const Tag*)(tags_start[Tag::type] + 1); }
         
             template <class Tag>
             static inline bool exist() { return (tags_start[Tag::type] != 0); }
