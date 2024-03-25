@@ -10,9 +10,15 @@ extern "C" void kernel_main(
     
     if (BootInfo::load(multiboot_addr))
     {
-        // Kernel Main
+        // Kernel Panic
     }
-        
+    
+    if (BootInfo::exist<Multiboot::EFI32Table>())
+    {
+        auto fb = BootInfo::get<Multiboot::EFI32Table>();
+    }
+    
+
     return;
 }   
 

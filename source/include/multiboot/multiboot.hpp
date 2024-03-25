@@ -5,11 +5,11 @@
 #define MAGIC 0x36d76289
 
 namespace Multiboot
-{
-    typedef unsigned long u32;
-    typedef unsigned short u16;
-    typedef unsigned char u8;
-
+{  
+    typedef unsigned long long u64;
+    typedef unsigned long      u32;
+    typedef unsigned short     u16;
+    typedef unsigned char      u8 ;
 
     enum class TagsType
     {
@@ -84,13 +84,13 @@ namespace Multiboot
         u16 entsize;
         u16 shndx;
         u16 reserved;
-        // TODO: Varies
+        ADDRESS varies;
     };
 
     struct MemoryEntry
     {
-        u32 base_address;
-        u32 length;
+        u64 base_address;
+        u64 length;
         u32 type;
         u32 reserved;
     };
@@ -98,7 +98,7 @@ namespace Multiboot
     struct MemoryMap
     {
         static inline u32 type = 6;
-        u32 size;
+        u32          size;
         u32          entry_size;
         u32          entry_version;
         MemoryEntry* entries;
@@ -137,24 +137,42 @@ namespace Multiboot
         u8  vbe_mode_info[256];
     };
 
+    // FB INFO TAG
     struct FrameBufferInfo
     {
         static inline u32 type = 8;
         u32     size;
-        ADDRESS framebuffer_addr;
+        u64     framebuffer_addr;
         u32     framebuffer_pitch;
         u32     framebuffer_width;
         u32     framebuffer_height;
         u8      framebuffer_bpp;
         u8      framebuffer_type;
         u8      reserved;  
-        // TODO: color_info    
+        ADDRESS varies;   
     };
+
+    struct IndexedColor
+    {
+        u32 framebuffer_palette_num_colors;
+        u8  framebuffer_palette[3]; // [R] / [G] / [B]
+    };
+
+    struct RGBColors
+    {
+        u8 framebuffer_red_field_position;
+        u8 framebuffer_red_mask_size;
+        u8 framebuffer_green_field_position;
+        u8 framebuffer_green_mask_size;
+        u8 framebuffer_blue_field_position;
+        u8 framebuffer_blue_mask_size;  
+    };
+    // _FB Info tag
 
     struct EFI32Table
     {
         static inline u32 type = 11;
-        u32 size;
+        u32     size;
         ADDRESS pointer;
     };
 
@@ -162,27 +180,59 @@ namespace Multiboot
     {
         static inline u32 type = 12;
         u32 size;
-        ADDRESS pointer;
+        u64 pointer;
     };
 
     struct SMBIOSTable
     {
         static inline u32 type = 13;
-        u32 size;
-        u8 major;
-        u8 minor;
-        u8 reserved[8];
+        u32     size;
+        u8      major;
+        u8      minor;
+        u8      reserved[8];
+        ADDRESS smbios_table;
     };
 
-    // TODO: ACPI old
-    // TODO: ACPI new
-    // TODO: Network Information
-    // TODO: EFI Memory Map
-    
+    struct ACPIOldRSDP
+    {
+        static inline u32 type = 14;
+        u32     size;
+        ADDRESS rsdpv1;
+    };
+
+    struct ACPINewRSDP
+    {
+        static inline u32 type = 15;
+        u32     size;
+        ADDRESS rsdpv2;
+    };
+
+    struct NetworkInfo
+    {
+        static inline u32 type = 16;
+        u32     size;
+        ADDRESS DHCP;
+    };
+
+    struct EFIMemoryMap
+    {
+        static inline u32 type = 17;
+        u32     size;
+        u32     descriptor_size;
+        u32     descriptor_version;
+        ADDRESS efi_memory_map;
+    };
+
+    struct EFIServicesTerminated
+    {
+        static inline u32 type = 18;
+        u32 size;
+    };
+
     struct EFI32ImageHandler
     {
         static inline u32 type = 19;
-        u32 size;
+        u32     size;
         ADDRESS pointer;
     };
 
@@ -190,7 +240,7 @@ namespace Multiboot
     {
         static inline u32 type = 20;
         u32 size;
-        ADDRESS pointer;
+        u64 pointer;
     };
 
     struct ImageLoadBase
@@ -207,7 +257,9 @@ namespace Multiboot
 
             template <class Tag>
             static inline Tag* get() { return (Tag*)(++tags_start[Tag::type]); }
-
+        
+            template <class Tag>
+            static inline bool exist() { return (tags_start[Tag::type] != 0); }
             
             static inline bool is_tag(u32 tag) { return tag <= 21; }
             
